@@ -8,6 +8,8 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+# find_package(fmt CONFIG REQUIRED)
+
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(${CMAKE_PROJECT_NAME}_tst 
                 main.cpp 
