@@ -1,4 +1,6 @@
-#include "arguments.h"
+#include "libstein/arguments.h"
+
+using namespace libstein;
 
 void Arguments::_build(std::vector<std::string> args)
 {
