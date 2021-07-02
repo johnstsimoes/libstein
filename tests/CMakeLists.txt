@@ -11,13 +11,13 @@ FetchContent_MakeAvailable(googletest)
 # find_package(fmt CONFIG REQUIRED)
 
 # Now simply link against gtest or gtest_main as needed. Eg
-add_executable(${CMAKE_PROJECT_NAME}_tst 
+add_executable(LibStein_tst 
                 main.cpp 
                 arguments_tests.cpp)
 
-target_link_libraries(${CMAKE_PROJECT_NAME}_tst 
-                      ${CMAKE_PROJECT_NAME}
+target_link_libraries(LibStein_tst 
+                      LibStein
                       gtest_main)
 
-add_test(NAME ${PROJECT_NAME}_test COMMAND ${CMAKE_PROJECT_NAME}_tst)
+add_test(NAME LibStein_test COMMAND LibStein_tst)
 
