@@ -1,5 +1,4 @@
 #include <regex>
-
 #include "libstein/command_line.h"
 
 using namespace libstein;
@@ -17,17 +16,51 @@ CommandLine& CommandLine::description(std::string description)
     return *this;
 }
 
+void CommandLine::verify_if_parameter_exists(std::string parameter)
+{
+    if (parameter != "")
+    {
+        if (this->_parameters_already_set.find(parameter)
+            != this->_parameters_already_set.end())
+        {
+            std::string message = "duplicate parameter:";
+            throw std::runtime_error{message + parameter};
+        }
+
+    }
+}
+
 CommandLine& CommandLine::parameter(std::string forms,
                         std::string description,
                         bool mandatory)
 {
-    auto tokens = split(forms, " ");
+    auto tokens = split(forms, ",");
 
-    //TODO validate between 1-3
+    if (    (tokens.size() == 0)
+        ||  (tokens.size() > 3)
+        ||  (tokens[0] == ""))
+    {
+        std::string message = "failed to parse parameter:";
+        throw std::runtime_error{message + forms};
+    }
 
-    std::string form_short = tokens[0];
+    auto pos = tokens.begin();
+
+    std::string form_short = *pos++;
     std::string form_long;
     std::string form_environment;
+
+    if (pos != tokens.end()) form_long        = *pos++;
+    if (pos != tokens.end()) form_environment = *pos++;
+
+    verify_if_parameter_exists(form_short);
+    verify_if_parameter_exists(form_long);
+    verify_if_parameter_exists(form_environment);
+
+    // check if exists already
+    this->_parameters_already_set.insert(form_short);
+    this->_parameters_already_set.insert(form_long);
+    this->_parameters_already_set.insert(form_environment);
 
     this->_parameters.push_back({
                             form_short,

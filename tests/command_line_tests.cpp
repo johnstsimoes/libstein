@@ -13,7 +13,7 @@ TEST(CommandLineTest, basic_test_ok)
 
     auto results = commandLine
         .description("Just an ordinary test.")
-        .parameter("u","", true)
+        .parameter("u", "", true)
         .parameter("p", "", true)
         .parameter("h", "", true)
         .eval(arguments);
@@ -40,3 +40,59 @@ TEST(CommandLineTest, basic_test_err)
     EXPECT_EQ(false, results.valid);
 }
 
+TEST(CommandLineTest, test_valid_parameters)
+{
+    EXPECT_THROW({
+
+        CommandLine commandLine;
+        auto results = commandLine
+            .parameter("0,1,2,3", "Invalid parameters", true);
+
+    }, std::runtime_error);
+
+    EXPECT_THROW({
+
+        CommandLine commandLine;
+        auto results = commandLine
+            .parameter("", "Invalid parameters", true);
+
+    }, std::runtime_error);
+
+    EXPECT_THROW({
+
+        CommandLine commandLine;
+        auto results = commandLine
+            .parameter(",,", "Invalid parameters", true);
+
+    }, std::runtime_error);
+}
+
+TEST(CommandLineTest, test_duplicated_parameters)
+{
+    EXPECT_THROW({
+
+        CommandLine commandLine;
+        auto results = commandLine
+            .parameter("u,user,ENV_USER", "", true)
+            .parameter("u", "", true);
+
+    }, std::runtime_error);
+
+    EXPECT_THROW({
+
+        CommandLine commandLine;
+        auto results = commandLine
+            .parameter("u,user,ENV_USER", "", true)
+            .parameter("user", "", true);
+
+    }, std::runtime_error);
+
+    EXPECT_THROW({
+
+        CommandLine commandLine;
+        auto results = commandLine
+            .parameter("u,user,ENV_USER", "", true)
+            .parameter("ENV_USER", "", true);
+
+    }, std::runtime_error);
+}

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <set>
 
 #include "arguments.h"
 
@@ -17,6 +18,8 @@ namespace libstein
     {
     private:
 
+        std::string _description;
+
         struct CommandLineParameter
         {
             std::string _short;
@@ -27,7 +30,8 @@ namespace libstein
         };
         std::vector<CommandLineParameter> _parameters;
 
-        std::string _description;
+        std::set<std::string> _parameters_already_set;
+        void verify_if_parameter_exists(std::string parameter);
 
     public:
         CommandLine();
