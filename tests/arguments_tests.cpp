@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include <vector>
-#include "arguments.h"
+#include "libstein/arguments.h"
+
+using libstein::Arguments;
 
 TEST(ArgumentsTest, basic_tests)
 {
