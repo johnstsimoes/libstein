@@ -1,5 +1,10 @@
-include(FetchContent)
+cmake_minimum_required(VERSION 3.17)
+project(TestStein)
 
+set(CMAKE_CXX_STANDARD 11)
+
+find_package(fmt CONFIG REQUIRED)
+include(FetchContent)
 FetchContent_Declare(
     LibStein 
     GIT_REPOSITORY "git@github.com:johnstsimoes/libstein.git"
