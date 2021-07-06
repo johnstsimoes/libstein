@@ -32,6 +32,7 @@ namespace libstein
 
         std::set<std::string> _parameters_already_set;
         void verify_if_parameter_exists(std::string parameter);
+        std::string formatParameter(CommandLineParameter& parameter);
 
     public:
         CommandLine();

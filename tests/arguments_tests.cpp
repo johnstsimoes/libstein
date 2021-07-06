@@ -7,12 +7,12 @@ using libstein::Arguments;
 TEST(ArgumentsTest, basic_tests)
 {
     // this is the equivalent of argc, argv on main
-    std::vector<std::string> args = { "-u", "John", "-p", "password", "h=url"};
+    std::vector<std::string> args = { "--user", "John", "-p", "password", "-h=url"};
 
     Arguments arguments(args);
 
     EXPECT_EQ (3, arguments.size());
-    EXPECT_EQ ("John", arguments.getParameter("u"));      // most basic use
+    EXPECT_EQ ("John", arguments.getParameter("user"));   // most basic use
     EXPECT_EQ ("password", arguments.getParameter("-p")); // - also works
     EXPECT_EQ ("url", arguments.getParameter("h"));       // = also works
 }
@@ -62,7 +62,7 @@ TEST(ArgumentsTest, classic_args)
 
 TEST(ArgumentsTest, edge_cases)
 {
-    std::vector<std::string> args = { "-u", "-ANOTHER", "-p", "lval=rval", "password", "-h", "url"};
+    std::vector<std::string> args = { "-u", "-ANOTHER", "-p", "--lval=rval", "password", "-h", "url"};
     
     Arguments arguments(args);
     EXPECT_EQ (5, arguments.size());

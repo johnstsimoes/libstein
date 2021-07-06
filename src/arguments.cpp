@@ -1,4 +1,5 @@
 #include "libstein/arguments.h"
+#include "libstein/string_utils.h"
 
 using namespace libstein;
 
@@ -7,7 +8,19 @@ void Arguments::_build(std::vector<std::string> args)
     bool waiting_rvalue = false;
     std::string previous_lvalue = "";
 
-    for (auto arg : args)
+    // split all A=B into two items
+    std::vector<std::string> expanded_args;
+    for (const auto &arg : args)
+    {
+        std::vector<std::string> tokens = stringutils::split(arg, '=');
+        for (const auto &token : tokens)
+        {
+            if (token.length() > 0)
+                expanded_args.push_back(token);
+        }
+    }
+
+    for (auto &arg : expanded_args)
     {
         if (arg.length() == 0) continue;
         
@@ -22,6 +35,7 @@ void Arguments::_build(std::vector<std::string> args)
 
             waiting_rvalue = true;
             arg.erase (0,1); // remove "-"
+            if (arg[0] == '-') arg.erase (0,1); // in case of "--"
             previous_lvalue = arg;
         }
         else if (std::string::npos != equals_found)
@@ -44,7 +58,6 @@ void Arguments::_build(std::vector<std::string> args)
         }
     }
 }
-
 
 Arguments::Arguments(std::vector<std::string> args)
 {

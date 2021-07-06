@@ -1,4 +1,5 @@
 #include <regex>
+#include <cstdlib>
 #include "libstein/command_line.h"
 
 using namespace libstein;
@@ -73,7 +74,32 @@ CommandLine& CommandLine::parameter(std::string forms,
 
 std::string get_environment(std::string environment_variable)
 {
-    std::string result;
+    const char* env_var = std::getenv(environment_variable.c_str());
+
+    std::string result = (NULL == env_var)? "" : env_var;
+    return result;
+}
+
+std::string CommandLine::formatParameter(CommandLineParameter& parameter)
+{
+    std::string result = "\t";
+    result += "-";
+    result += parameter._short;
+    result += "\t";
+    result += parameter._description;
+
+    if (parameter._long != "")
+    {
+        result += "\n\t\tLong alternative: --";
+        result += parameter._long;
+    }
+
+    if (parameter._environment != "")
+    {
+        result += "\n\t\tEnvironment Variable: ";
+        result += parameter._environment;
+    }
+
     return result;
 }
 
@@ -91,15 +117,17 @@ CommandLineResults CommandLine::eval(Arguments& arguments)
                 &&  !(get_environment(parameters._environment) != ""))
             {
                 results.valid = false;
-                results.output.push_back(parameters._description);
+                results.output.push_back(formatParameter (parameters));
             }
         }
     }
 
+    // Builds header to be displayed to the user in "--help" fashion.
     if (false == results.valid)
     {
-        auto pos = results.output.insert (results.output.begin(), this->_description);
-        results.output.insert (pos, "\n");
+        auto pos = results.output.insert (results.output.begin(), this->_description + "\n");
+
+        pos = results.output.insert (pos + 1, "Options:");
     }
 
     return results;
