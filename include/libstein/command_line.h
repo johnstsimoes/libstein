@@ -30,6 +30,7 @@ namespace libstein
         };
         std::vector<CommandLineParameter> _parameters;
 
+        // std::map<std::string, CommandLineParameter&> _para
         std::set<std::string> _parameters_already_set;
         void verify_if_parameter_exists(std::string parameter);
         std::string formatParameter(CommandLineParameter& parameter);
@@ -43,5 +44,10 @@ namespace libstein
                              bool mandatory);
         
         CommandLineResults eval(Arguments& arguments);
+        
+        std::string getParameter(std::string parameter);
+
+        bool isSet(std::string parameter);
+        bool hasValue(std::string parameter);
     };
 }

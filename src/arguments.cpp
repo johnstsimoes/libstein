@@ -12,7 +12,7 @@ void Arguments::_build(std::vector<std::string> args)
     std::vector<std::string> expanded_args;
     for (const auto &arg : args)
     {
-        std::vector<std::string> tokens = stringutils::split(arg, '=');
+        std::vector<std::string> tokens = stringutils::split(arg, "=");
         for (const auto &token : tokens)
         {
             if (token.length() > 0)

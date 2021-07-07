@@ -7,6 +7,6 @@ namespace libstein
 {
     namespace stringutils
     {
-        std::vector<std::string> split(const std::string &string, char delimiter);
+        std::vector<std::string> split(const std::string str, const std::string regex_str);
     }
 }

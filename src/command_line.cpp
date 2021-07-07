@@ -1,13 +1,8 @@
-#include <regex>
 #include <cstdlib>
 #include "libstein/command_line.h"
+#include "libstein/string_utils.h"
 
 using namespace libstein;
-
-std::vector<std::string> split(const std::string str, const std::string regex_str)
-{
-    return { std::sregex_token_iterator(str.begin(), str.end(), std::regex(regex_str), -1), std::sregex_token_iterator() };
-}
 
 CommandLine::CommandLine() {}
 
@@ -31,11 +26,12 @@ void CommandLine::verify_if_parameter_exists(std::string parameter)
     }
 }
 
+
 CommandLine& CommandLine::parameter(std::string forms,
                         std::string description,
                         bool mandatory)
 {
-    auto tokens = split(forms, ",");
+    auto tokens = stringutils::split(forms, ",");
 
     if (    (tokens.size() == 0)
         ||  (tokens.size() > 3)
@@ -131,4 +127,19 @@ CommandLineResults CommandLine::eval(Arguments& arguments)
     }
 
     return results;
+}
+
+std::string CommandLine::getParameter(std::string parameter)
+{
+    return std::string();
+}
+
+bool CommandLine::isSet(std::string parameter)
+{
+    return false;
+}
+
+bool CommandLine::hasValue(std::string parameter)
+{
+    return false;
 }
