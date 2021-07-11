@@ -82,7 +82,7 @@ TEST(CommandLineTest, test_duplicated_parameters)
 
         auto results = CommandLine() 
             .parameter("u,user,ENV_USER", "", true)
-            .parameter("ENV_USER", "", true);
+            .parameter("x,xuser,ENV_USER", "", true);
 
     }, std::runtime_error);
 }

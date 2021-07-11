@@ -27,13 +27,15 @@ namespace libstein
             std::string _environment;
             std::string _description;
             bool _mandatory;
+            std::string _value;
+            bool _is_set;
         };
-        std::vector<CommandLineParameter> _parameters;
+        std::map<std::string, std::shared_ptr<CommandLineParameter>> _parameters;
+        std::map<std::string, std::shared_ptr<CommandLineParameter>> _environment_parameters;
 
-        // std::map<std::string, CommandLineParameter&> _para
-        std::set<std::string> _parameters_already_set;
+        void safe_add_parameter(std::shared_ptr<CommandLineParameter>& parameter);
         void verify_if_parameter_exists(std::string parameter);
-        std::string formatParameter(CommandLineParameter& parameter);
+        std::string formatParameter(std::shared_ptr<CommandLineParameter>& parameter);
 
     public:
         CommandLine();
@@ -44,6 +46,7 @@ namespace libstein
                              bool mandatory);
         
         CommandLineResults eval(Arguments& arguments);
+        int count();
         
         std::string getParameter(std::string parameter);
 

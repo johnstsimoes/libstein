@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <cassert>
 #include "libstein/command_line.h"
 #include "libstein/string_utils.h"
 
@@ -16,16 +17,14 @@ void CommandLine::verify_if_parameter_exists(std::string parameter)
 {
     if (parameter != "")
     {
-        if (this->_parameters_already_set.find(parameter)
-            != this->_parameters_already_set.end())
+        if (    (this->_parameters.find(parameter) != this->_parameters.end())
+            ||  (this->_environment_parameters.find(parameter) != this->_environment_parameters.end()))
         {
             std::string message = "duplicate parameter:";
             throw std::runtime_error{message + parameter};
         }
-
     }
 }
-
 
 CommandLine& CommandLine::parameter(std::string forms,
                         std::string description,
@@ -54,46 +53,48 @@ CommandLine& CommandLine::parameter(std::string forms,
     verify_if_parameter_exists(form_long);
     verify_if_parameter_exists(form_environment);
 
-    // check if exists already
-    this->_parameters_already_set.insert(form_short);
-    this->_parameters_already_set.insert(form_long);
-    this->_parameters_already_set.insert(form_environment);
-
-    this->_parameters.push_back({
+    auto parameter = std::make_shared<CommandLineParameter>(CommandLineParameter{
                             form_short,
                             form_long,
                             form_environment,
                             description,
-                            mandatory});
+                            mandatory,
+                            "",
+                            false});
+    
+    safe_add_parameter(parameter);
+ 
     return *this;
 }
 
-std::string get_environment(std::string environment_variable)
+void CommandLine::safe_add_parameter(std::shared_ptr<CommandLineParameter>& parameter)
 {
-    const char* env_var = std::getenv(environment_variable.c_str());
+    assert(parameter != nullptr);
 
-    std::string result = (NULL == env_var)? "" : env_var;
-    return result;
+    if (parameter->_short       != "") this->_parameters[parameter->_short] = parameter;
+    if (parameter->_long        != "") this->_parameters[parameter->_long]  = parameter;
+
+    if (parameter->_environment != "") this->_environment_parameters[parameter->_environment] = parameter;
 }
 
-std::string CommandLine::formatParameter(CommandLineParameter& parameter)
+std::string CommandLine::formatParameter(std::shared_ptr<CommandLineParameter>& parameter)
 {
     std::string result = "\t";
     result += "-";
-    result += parameter._short;
+    result += parameter->_short;
     result += "\t";
-    result += parameter._description;
+    result += parameter->_description;
 
-    if (parameter._long != "")
+    if (parameter->_long != "")
     {
         result += "\n\t\tLong alternative: --";
-        result += parameter._long;
+        result += parameter->_long;
     }
 
-    if (parameter._environment != "")
+    if (parameter->_environment != "")
     {
         result += "\n\t\tEnvironment Variable: ";
-        result += parameter._environment;
+        result += parameter->_environment;
     }
 
     return result;
@@ -104,13 +105,42 @@ CommandLineResults CommandLine::eval(Arguments& arguments)
     CommandLineResults results;
     results.valid = true;
 
-    for (auto parameters : this->_parameters)
+    // Since short,long and environment variable all point to the same CommandLineParameter
+    // struct, we need to reduce the map to the unique values.
+    std::set<std::shared_ptr<CommandLineParameter>> unique_parameters;
+    for (auto const &parameters : this->_parameters)
     {
-        if (parameters._mandatory)
+        unique_parameters.insert(parameters.second);
+    }
+
+    // Fill parameters with values from arguments.
+    auto argument_parameters = arguments.getParameters();
+
+    for (auto &parameter: argument_parameters)
+    {
+        auto command_line_parameters = this->_parameters.find(parameter.first);
+
+        if (this->_parameters.end() != command_line_parameters)
         {
-            if (    !(arguments.isSet(parameters._short))
-                &&  !(arguments.isSet(parameters._long))
-                &&  !(get_environment(parameters._environment) != ""))
+            command_line_parameters->second->_value = parameter.second;
+            command_line_parameters->second->_is_set = true;
+        }
+        else // do not accept unknown parameters
+        {
+            results.valid = false;
+            std::string error_message = "Undefined parameter:";
+            results.output.push_back(error_message + parameter.first);
+        }
+    }
+
+    // Check for missing mandatory parameters.
+    for (auto parameters : unique_parameters)
+    {
+        if (parameters->_mandatory)
+        {
+            if (    !(arguments.isSet(parameters->_short))
+                &&  !(arguments.isSet(parameters->_long))
+                &&  !(stringutils::get_environment(parameters->_environment) != ""))
             {
                 results.valid = false;
                 results.output.push_back(formatParameter (parameters));
@@ -129,17 +159,51 @@ CommandLineResults CommandLine::eval(Arguments& arguments)
     return results;
 }
 
+int CommandLine::count()
+{
+    std::string empty;
+    std::set<std::shared_ptr<CommandLineParameter> > unique_values;
+
+    for (auto const &parameter : this->_parameters)
+    {
+        if (parameter.second->_is_set)
+            unique_values.insert(parameter.second);
+    }
+    return unique_values.size();
+}
+
 std::string CommandLine::getParameter(std::string parameter)
 {
-    return std::string();
+    std::string result = "";
+
+    auto command_line_parameters = this->_parameters.find(parameter);
+    if (this->_parameters.end() != command_line_parameters)
+    {
+        result = command_line_parameters->second->_value;
+    }
+    return result;
 }
 
 bool CommandLine::isSet(std::string parameter)
 {
-    return false;
+    bool result = false;
+
+    auto command_line_parameters = this->_parameters.find(parameter);
+    if (this->_parameters.end() != command_line_parameters)
+    {
+        result = command_line_parameters->second->_is_set;
+    }
+    return result;
 }
 
 bool CommandLine::hasValue(std::string parameter)
 {
-    return false;
+    bool result = false;
+
+    auto command_line_parameters = this->_parameters.find(parameter);
+    if (this->_parameters.end() != command_line_parameters)
+    {
+        result = command_line_parameters->second->_value != "";
+    }
+    return result;
 }

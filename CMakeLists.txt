@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.17)
-set(DEFAULT_BUILD_TYPE "Release")
+
+IF( NOT CMAKE_BUILD_TYPE )
+   message ("Release build")
+   SET( CMAKE_BUILD_TYPE Release ... FORCE )
+ENDIF()
 
 project(LibStein
         VERSION 1.0.0 

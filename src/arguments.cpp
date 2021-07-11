@@ -81,6 +81,12 @@ int Arguments::size()
     return _values.size();
 }
 
+
+std::map<std::string, std::string> Arguments::getParameters()
+{
+    return this->_values;
+}
+
 std::string Arguments::getParameter(std::string parameter)
 {
     if (parameter.length() > 0 && parameter[0] == '-')

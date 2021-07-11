@@ -14,6 +14,7 @@ FetchContent_MakeAvailable(googletest)
 add_executable(LibStein_tst 
                 main.cpp 
                 command_line_tests.cpp
+                command_line_arguments_tests.cpp
                 arguments_tests.cpp)
 
 target_link_libraries(LibStein_tst 

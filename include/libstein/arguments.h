@@ -17,6 +17,8 @@ namespace libstein
         Arguments(int argc, char** argv);
         Arguments(std::vector<std::string> args);
 
+        std::map<std::string, std::string> getParameters();
+
         int size();
         
         std::string getParameter(std::string parameter);
