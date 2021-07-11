@@ -1,3 +1,4 @@
+#include <iostream>
 #include "libstein/arguments.h"
 #include "libstein/string_utils.h"
 
@@ -8,23 +9,9 @@ void Arguments::_build(std::vector<std::string> args)
     bool waiting_rvalue = false;
     std::string previous_lvalue = "";
 
-    // split all A=B into two items
-    std::vector<std::string> expanded_args;
-    for (const auto &arg : args)
-    {
-        std::vector<std::string> tokens = stringutils::split(arg, "=");
-        for (const auto &token : tokens)
-        {
-            if (token.length() > 0)
-                expanded_args.push_back(token);
-        }
-    }
-
-    for (auto &arg : expanded_args)
+    for (auto &arg : args)
     {
         if (arg.length() == 0) continue;
-        
-        auto equals_found = arg.find('=');
 
         if ('-' == arg[0])
         {
@@ -38,16 +25,6 @@ void Arguments::_build(std::vector<std::string> args)
             if (arg[0] == '-') arg.erase (0,1); // in case of "--"
             previous_lvalue = arg;
         }
-        else if (std::string::npos != equals_found)
-        {
-            if (waiting_rvalue)
-            {
-                _values[previous_lvalue] = "";
-            }
-
-            _values[arg.substr(0, equals_found)] = arg.substr(equals_found + 1);
-            waiting_rvalue = false;
-        }
         else
         {
             if (waiting_rvalue)
@@ -56,6 +33,11 @@ void Arguments::_build(std::vector<std::string> args)
                 waiting_rvalue = false;
             }
         }
+    }
+
+    if (waiting_rvalue)
+    {
+        _values[previous_lvalue] = ""; // may be a last flag
     }
 }
 

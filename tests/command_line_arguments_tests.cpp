@@ -8,7 +8,7 @@ using namespace libstein;
 TEST(CommandLineArgumentsTest, basic_tests)
 {
     // this is the equivalent of argc, argv on main
-    std::vector<std::string> args = { "--user", "John", "-p", "password", "-h=url"};
+    std::vector<std::string> args = { "--user", "John", "-p", "password", "-h"};
 
     CommandLine commandLine;
     auto results = commandLine
@@ -21,7 +21,8 @@ TEST(CommandLineArgumentsTest, basic_tests)
     EXPECT_EQ (3, commandLine.count());
     EXPECT_EQ ("John", commandLine.getParameter("user")); 
     EXPECT_EQ ("password", commandLine.getParameter("p"));
-    EXPECT_EQ ("url", commandLine.getParameter("h"));
+
+    EXPECT_TRUE (commandLine.isSet("h"));
 }
 
 TEST(CommandLineArgumentsTest, params_tests)
@@ -53,7 +54,7 @@ TEST(CommandLineArgumentsTest, params_tests)
 
 TEST(CommandLineArgumentsTest, edge_cases)
 {
-    std::vector<std::string> args = { "-u", "-ANOTHER", "-p", "--lval=rval", "password", "-h", "url"};
+    std::vector<std::string> args = { "-u", "-ANOTHER", "-p", "--lval", "rval", "password", "-h", "url"};
     
     CommandLine commandLine;
     auto results = commandLine

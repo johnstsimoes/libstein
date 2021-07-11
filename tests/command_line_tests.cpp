@@ -5,7 +5,7 @@ using namespace libstein;
 
 TEST(CommandLineTest, basic_test_ok)
 {
-    std::vector<std::string> args = { "-u", "John", "-p", "password", "-h=url"};
+    std::vector<std::string> args = { "-u", "John", "-p", "password"};
 
     Arguments arguments(args);
 
@@ -13,7 +13,6 @@ TEST(CommandLineTest, basic_test_ok)
         .description("Just an ordinary test.")
         .parameter("u", "", true)
         .parameter("p", "", true)
-        .parameter("h", "", true)
         .eval(arguments);
 
     EXPECT_EQ(0, results.output.size());
@@ -113,7 +112,7 @@ TEST(CommandLineTest, test_environment_vars)
 
 TEST(CommandLineTest, test_long_params)
 {
-    std::vector<std::string> args = { "--user=John"};
+    std::vector<std::string> args = { "--user", "John"};
 
     Arguments arguments(args);
 

@@ -7,14 +7,16 @@ using libstein::Arguments;
 TEST(ArgumentsTest, basic_tests)
 {
     // this is the equivalent of argc, argv on main
-    std::vector<std::string> args = { "--user", "John", "-p", "password", "-h=url"};
+    std::vector<std::string> args = { "--user", "John", "-p", "password", "-h"};
 
     Arguments arguments(args);
+
 
     EXPECT_EQ (3, arguments.size());
     EXPECT_EQ ("John", arguments.getParameter("user"));   // most basic use
     EXPECT_EQ ("password", arguments.getParameter("-p")); // - also works
-    EXPECT_EQ ("url", arguments.getParameter("h"));       // = also works
+
+    EXPECT_EQ (true, arguments.isSet("h"));
 }
 
 TEST(ArgumentsTest, params_tests)
@@ -62,7 +64,7 @@ TEST(ArgumentsTest, classic_args)
 
 TEST(ArgumentsTest, edge_cases)
 {
-    std::vector<std::string> args = { "-u", "-ANOTHER", "-p", "--lval=rval", "password", "-h", "url"};
+    std::vector<std::string> args = { "-u", "-ANOTHER", "-p", "-lval", "rval", "password", "-command", "key=ABC \"dash\" 123"};
     
     Arguments arguments(args);
     EXPECT_EQ (5, arguments.size());
@@ -75,7 +77,9 @@ TEST(ArgumentsTest, edge_cases)
     EXPECT_EQ (true, arguments.isSet("ANOTHER"));
     EXPECT_EQ (true, arguments.isSet("p"));
     EXPECT_EQ (true, arguments.isSet("lval"));
-    EXPECT_EQ (true, arguments.isSet("h"));
+    EXPECT_EQ (true, arguments.isSet("command"));
+
+    EXPECT_EQ ("key=ABC \"dash\" 123", arguments.getParameter("command"));
 
     EXPECT_EQ (false, arguments.isSet("password"));
     EXPECT_EQ (false, arguments.isSet("rval"));
@@ -85,5 +89,5 @@ TEST(ArgumentsTest, edge_cases)
     EXPECT_EQ (false, arguments.hasValue("ANOTHER"));
     EXPECT_EQ (false, arguments.hasValue("p"));
     EXPECT_EQ (true, arguments.hasValue("lval"));
-    EXPECT_EQ (true, arguments.hasValue("h"));
+    EXPECT_EQ (false, arguments.hasValue("h"));
 }
