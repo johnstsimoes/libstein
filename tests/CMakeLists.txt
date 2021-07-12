@@ -13,9 +13,10 @@ FetchContent_MakeAvailable(googletest)
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(LibStein_tst 
                 main.cpp 
+                arguments_tests.cpp
                 command_line_tests.cpp
                 command_line_arguments_tests.cpp
-                arguments_tests.cpp)
+                month_ticker_test.cpp)
 
 target_link_libraries(LibStein_tst 
                       LibStein
