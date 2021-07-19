@@ -55,3 +55,23 @@ TEST(MonthTicker, new_year)
     EXPECT_EQ (0, mt.month);
     EXPECT_EQ (100, mt.year);
 }
+
+TEST(MonthTicker, until_valid)
+{
+    std::time_t time_t_now = std::time(nullptr);
+    std::tm* t_now = std::localtime(&time_t_now);
+    std::tm one_year_ago = *t_now;
+    one_year_ago.tm_year--; // 1 year ago
+
+    int pos = 0;
+    MonthTicker mt(one_year_ago);
+
+    while (mt.valid())
+    {
+        mt.next();
+        pos++;
+    }
+
+    EXPECT_EQ (13, pos);
+    EXPECT_FALSE (mt.valid());
+}
