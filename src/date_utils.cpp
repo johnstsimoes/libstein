@@ -31,14 +31,14 @@ bool libstein::dateutils::is_weekday(const std::tm &date)
             && (time_out->tm_wday < 6));
 }
 
-bool libstein::dateutils::same_day(const std::tm &day1, const std::tm &day2)
+bool libstein::dateutils::is_same_day(const std::tm &day1, const std::tm &day2)
 {
     return (    (day1.tm_mday == day2.tm_mday)
             &&  (day1.tm_mon == day2.tm_mon)
             &&  (day1.tm_year == day2.tm_year));
 }
 
-bool libstein::dateutils::same_month(const std::tm &date1, const std::tm &date2)
+bool libstein::dateutils::is_same_month(const std::tm &date1, const std::tm &date2)
 {
     return (    (date1.tm_year == date2.tm_year)
             &&  (date1.tm_mon  == date2.tm_mon));
@@ -50,7 +50,7 @@ int libstein::dateutils::elapsed_days_without_weekends(const std::tm &begin, con
     auto cursor = begin;
     int result = 0;
 
-    while (!same_day(cursor, end))
+    while (!is_same_day(cursor, end))
     {
         if (is_weekday(cursor))
             result++;

@@ -25,9 +25,18 @@ TEST(DateUtilsTest, is_weekday)
     EXPECT_FALSE (is_weekday(parse_date("29/2/2020"))); // Saturday
 }
 
+TEST(DateUtilsTest, is_same_day)
+{
+    EXPECT_TRUE  ( is_same_day(parse_date("15/1/2021"), parse_date("15/1/2021")));
+    EXPECT_FALSE ( is_same_day(parse_date("1/1/2021"), parse_date("1/1/1999")));
+}
 
-        // bool same_day(const std::tm &day1, const std::tm &day2);
-        // bool same_month(const std::tm &date1, const std::tm &date2);
+TEST(DateUtilsTest, is_same_month)
+{
+    EXPECT_TRUE ( is_same_month(parse_date("15/1/2021"), parse_date("31/1/2021")));
+
+    EXPECT_FALSE ( is_same_month(parse_date("15/1/2021"), parse_date("15/1/2020")));
+}
 
         // int elapsed_days_without_weekends(const std::tm &begin, const std::tm &end);
         // std::tm get_next_day(const std::tm &date);
