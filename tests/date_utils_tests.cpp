@@ -38,6 +38,34 @@ TEST(DateUtilsTest, is_same_month)
     EXPECT_FALSE ( is_same_month(parse_date("15/1/2021"), parse_date("15/1/2020")));
 }
 
-        // int elapsed_days_without_weekends(const std::tm &begin, const std::tm &end);
-        // std::tm get_next_day(const std::tm &date);
-        // std::tm beginning_next_month(const std::tm& date);
+TEST(DateUtilsTest, elapsed_days_without_weekends)
+{
+    EXPECT_EQ (8, elapsed_days_without_weekends(parse_date("8/7/2021"), parse_date("20/7/2021")));
+
+    // Inverted order should return 0
+    EXPECT_EQ (0, elapsed_days_without_weekends(parse_date("8/7/2021"), parse_date("7/7/2021")));
+
+    // Different months in a leap year
+    EXPECT_EQ (5, elapsed_days_without_weekends(parse_date("27/2/2020"), parse_date("5/3/2020")));
+
+    // Different years
+    EXPECT_EQ (261, elapsed_days_without_weekends(parse_date("8/7/2021"), parse_date("8/7/2022")));
+}
+
+TEST(DateUtilsTest, get_next_day)
+{
+    EXPECT_EQ(1, get_next_day(parse_date("31/12/2021")).tm_mday);
+    EXPECT_EQ(0, get_next_day(parse_date("31/12/2021")).tm_mon);
+    EXPECT_EQ(9, get_next_day(parse_date("8/7/2021")).tm_mday);
+    EXPECT_EQ(1, get_next_day(parse_date("28/2/2021")).tm_mday);
+    EXPECT_EQ(29, get_next_day(parse_date("28/2/2020")).tm_mday); // Leap year
+}
+
+TEST(DateUtilsTest, beginning_next_month)
+{
+    EXPECT_EQ(1, beginning_next_month(parse_date("15/1/2021")).tm_mday);
+    EXPECT_EQ(1, beginning_next_month(parse_date("15/1/2021")).tm_mday); // 1 = February (zero-based)
+    EXPECT_EQ(1, beginning_next_month(parse_date("31/1/2021")).tm_mday);
+    EXPECT_EQ(1, beginning_next_month(parse_date("1/1/2022")).tm_mday);
+    EXPECT_EQ(3, beginning_next_month(parse_date("1/3/2022")).tm_mon); // 3 = April (zero-based)
+}

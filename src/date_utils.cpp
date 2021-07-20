@@ -8,7 +8,8 @@ using namespace libstein::dateutils;
 
 const std::tm libstein::dateutils::parse_date(const std::string& date)
 {
-    std::tm parsed;
+    std::tm parsed = {0};
+
     std::istringstream ss(date);
     ss >> std::get_time(&parsed, "%d/%m/%y");
     if (ss.fail()) {
@@ -46,7 +47,12 @@ bool libstein::dateutils::is_same_month(const std::tm &date1, const std::tm &dat
 
 int libstein::dateutils::elapsed_days_without_weekends(const std::tm &begin, const std::tm &end)
 {
-    // std::time_t elapsed_days = (std::mktime(&(active_block.end)) - std::mktime(&(active_block.begin))) / 86400;
+    auto temp_begin = begin;
+    auto temp_end = end;
+
+    if (std::mktime(&temp_begin) - std::mktime(&temp_end) > 0)
+        return 0;
+
     auto cursor = begin;
     int result = 0;
 

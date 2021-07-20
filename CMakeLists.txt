@@ -6,7 +6,7 @@ IF( NOT CMAKE_BUILD_TYPE )
 ENDIF()
 
 project(LibStein
-        VERSION 1.0.0 
+        VERSION 1.0.0
         DESCRIPTION "John Simoes' C/C++ library for general projects.")
 
 set(CMAKE_CXX_STANDARD 11)
