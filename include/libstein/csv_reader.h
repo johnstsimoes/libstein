@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <istream>
+#include <vector>
 
 namespace libstein
 {

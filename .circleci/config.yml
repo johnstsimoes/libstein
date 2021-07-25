@@ -2,7 +2,7 @@ version: 2.1
 executors:
   exectr:
     docker:
-      - image: silverlinings89/cpp_build_environment:latest
+      - image: johnstsimoes/cpp-ready:latest
 
 jobs:
   build:

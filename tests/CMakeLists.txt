@@ -17,7 +17,8 @@ add_executable(LibStein_tst
                 command_line_tests.cpp
                 command_line_arguments_tests.cpp
                 date_utils_tests.cpp
-                month_ticker_tests.cpp)
+                month_ticker_tests.cpp
+                string_utils_tests.cpp)
 
 target_link_libraries(LibStein_tst 
                       LibStein

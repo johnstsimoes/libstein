@@ -1,5 +1,5 @@
-#include <string>
-#include <regex>
+#include <sstream>
+#include <iterator>
 
 #include "libstein/string_utils.h"
 
@@ -9,9 +9,16 @@ namespace libstein
 {
     namespace stringutils
     {
-        std::vector<std::string> split(const std::string str, const std::string regex_str)
+        std::vector<std::string> split(const std::string &string, const char delimiter)
         {
-            return { std::sregex_token_iterator(str.begin(), str.end(), std::regex(regex_str), -1), std::sregex_token_iterator() };
+            std::stringstream ss(string);
+            std::string token;
+            std::vector<std::string> result;
+            while (std::getline(ss, token, delimiter))
+            {
+                result.push_back(std::move(token));
+            }
+            return result;
         }
 
         std::string get_environment(std::string environment_variable)

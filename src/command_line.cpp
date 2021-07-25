@@ -30,7 +30,7 @@ CommandLine& CommandLine::parameter(std::string forms,
                         std::string description,
                         bool mandatory)
 {
-    auto tokens = stringutils::split(forms, ",");
+    auto tokens = stringutils::split(forms, ',');
 
     if (    (tokens.size() == 0)
         ||  (tokens.size() > 3)
