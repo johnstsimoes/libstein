@@ -16,5 +16,7 @@ namespace libstein
         int elapsed_days_without_weekends(const std::tm &begin, const std::tm &end);
         std::tm get_next_day(const std::tm &date);
         std::tm beginning_next_month(const std::tm& date);
+
+        int compare_months(const std::tm &date1, const std::tm &date2);
     }
 }

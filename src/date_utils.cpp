@@ -95,3 +95,11 @@ std::tm libstein::dateutils::beginning_next_month(const std::tm& date)
 
     return result;
 }
+
+int libstein::dateutils::compare_months(const std::tm &date1, const std::tm &date2)
+{
+    int absolute_month1 = date1.tm_year * 12 + date1.tm_mon;
+    int absolute_month2 = date2.tm_year * 12 + date2.tm_mon;
+
+    return absolute_month2 - absolute_month1;
+}

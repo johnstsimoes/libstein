@@ -69,3 +69,13 @@ TEST(DateUtilsTest, beginning_next_month)
     EXPECT_EQ(1, beginning_next_month(parse_date("1/1/2022")).tm_mday);
     EXPECT_EQ(3, beginning_next_month(parse_date("1/3/2022")).tm_mon); // 3 = April (zero-based)
 }
+
+TEST(DateUtilsTest, compare_months)
+{
+    EXPECT_EQ(0, compare_months(parse_date("15/1/2021"), parse_date("31/1/2021"))); // same month
+    EXPECT_EQ(14, compare_months(parse_date("15/1/2020"), parse_date("1/3/2021"))); // 14 months before
+    EXPECT_EQ(6, compare_months(parse_date("15/7/2021"), parse_date("1/1/2022"))); // 6 months before
+    EXPECT_EQ(-20, compare_months(parse_date("30/7/2021"), parse_date("15/11/2019"))); // 20 months later
+    EXPECT_EQ(-20, compare_months(parse_date("1/10/2021"), parse_date("29/2/2020"))); // 20 months later
+    EXPECT_EQ(-6, compare_months(parse_date("1/2/2022"), parse_date("15/8/2021"))); // 6 months later
+}
