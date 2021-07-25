@@ -3,6 +3,8 @@ executors:
   exectr:
     docker:
       - image: silverlinings89/cpp_build_environment:latest
+
+jobs:
   build:
     executor: exectr
     steps:
@@ -14,6 +16,7 @@ executors:
       - persist_to_workspace:
           root: .
           paths: build
+  test:
     executor: exectr
     steps:
       - attach_workspace:
