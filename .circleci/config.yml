@@ -13,6 +13,7 @@ jobs:
           name: Setup cmake and build artifacts
           command: |
             cmake -S . -B build/
+            cmake --build build/
       - persist_to_workspace:
           root: .
           paths: build
