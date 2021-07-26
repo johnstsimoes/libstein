@@ -1,5 +1,7 @@
 # LibStein
 
+[![CircleCI](https://circleci.com/gh/johnstsimoes/libstein.svg?style=shield&circle-token=cbaed39aa3833480914921853063e56e85cf172a)](<LINK>)
+
 Example CMakeLists.txt:
 
 ```
