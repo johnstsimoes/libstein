@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <cassert>
+#include <stdexcept>
 #include "libstein/command_line.h"
 #include "libstein/string_utils.h"
 
@@ -21,7 +22,7 @@ void CommandLine::verify_if_parameter_exists(std::string parameter)
             ||  (this->_environment_parameters.find(parameter) != this->_environment_parameters.end()))
         {
             std::string message = "duplicate parameter:";
-            throw std::runtime_error{message + parameter};
+            throw std::runtime_error(message + parameter);
         }
     }
 }
@@ -37,7 +38,7 @@ CommandLine& CommandLine::parameter(std::string forms,
         ||  (tokens[0] == ""))
     {
         std::string message = "failed to parse parameter:";
-        throw std::runtime_error{message + forms};
+        throw std::runtime_error(message + forms);
     }
 
     auto pos = tokens.begin();

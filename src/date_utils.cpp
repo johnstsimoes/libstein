@@ -1,6 +1,5 @@
 #include <string>
-#include <sstream>
-#include <iomanip>
+#include <stdexcept>
 
 #include "libstein/date_utils.h"
 
@@ -9,12 +8,11 @@ using namespace libstein::dateutils;
 const std::tm libstein::dateutils::parse_date(const std::string& date)
 {
     std::tm parsed = {0};
-
-    std::istringstream ss(date);
-    ss >> std::get_time(&parsed, "%d/%m/%y");
-    if (ss.fail()) {
-        throw std::runtime_error{"failed to parse time string"};
+    if (!strptime(date.c_str(), "%d/%m/%Y", &parsed))
+    {
+        throw std::runtime_error("failed to parse time string");
     }
+
     return parsed;
 }
 
