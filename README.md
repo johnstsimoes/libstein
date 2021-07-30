@@ -1,5 +1,7 @@
 # LibStein
 
+[![CircleCI](https://circleci.com/gh/johnstsimoes/libstein.svg?style=shield&circle-token=cbaed39aa3833480914921853063e56e85cf172a)](<LINK>)
+
 Yet another C++ library for pet projects. Use `#include <libstein.h>`.
 
 ## Command line helpers
