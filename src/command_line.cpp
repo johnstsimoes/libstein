@@ -134,14 +134,24 @@ CommandLineResults CommandLine::eval(Arguments& arguments)
         }
     }
 
-    // Check for missing mandatory parameters.
+    // Check for missing mandatory parameters, and fill with environment variables if not set.
     for (auto parameters : unique_parameters)
     {
-        if (parameters->_mandatory)
+        if (!parameters->_is_set)
+        {
+            auto environment_variable = stringutils::get_environment(parameters->_environment);
+            if (environment_variable != "")
+            {
+                parameters->_is_set = true;
+                parameters->_value = environment_variable;
+            }
+
+        }
+
+        if (parameters->_mandatory && parameters->_is_set == false)
         {
             if (    !(arguments.isSet(parameters->_short))
-                &&  !(arguments.isSet(parameters->_long))
-                &&  !(stringutils::get_environment(parameters->_environment) != ""))
+                &&  !(arguments.isSet(parameters->_long)))
             {
                 results.valid = false;
                 results.output.push_back(formatParameter (parameters));

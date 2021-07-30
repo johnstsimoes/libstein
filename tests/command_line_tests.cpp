@@ -8,15 +8,23 @@ TEST(CommandLineTest, basic_test_ok)
     std::vector<std::string> args = { "-u", "John", "-p", "password"};
 
     Arguments arguments(args);
+    CommandLine command_line;
 
-    auto results = CommandLine()
+    auto results = command_line
         .description("Just an ordinary test.")
         .parameter("u", "", true)
         .parameter("p", "", true)
+        .parameter("x,path,PATH", "", true)
         .eval(arguments);
 
     EXPECT_EQ(0, results.output.size());
     EXPECT_EQ(true, results.valid);
+    
+    EXPECT_EQ("John", command_line.getParameter("u"));
+    EXPECT_EQ("password", command_line.getParameter("p"));
+    EXPECT_NE("", command_line.getParameter("x"));
+
+    EXPECT_NO_THROW({ command_line.getParameter("unknown"); });
 }
 
 TEST(CommandLineTest, basic_test_err)
@@ -92,11 +100,15 @@ TEST(CommandLineTest, test_environment_vars)
 
     Arguments arguments(args);
 
+    auto command_line= CommandLine();
+
     // Should find PATH
-    auto results = CommandLine()
+    auto results = command_line 
         .description("Just an ordinary test.")
         .parameter("u,user,PATH", "some description", true)
         .eval(arguments);
+
+    EXPECT_NE("", command_line.getParameter("u"));
 
     EXPECT_EQ(0, results.output.size());
     EXPECT_EQ(true, results.valid);
@@ -123,4 +135,23 @@ TEST(CommandLineTest, test_long_params)
 
     EXPECT_EQ(0, results.output.size());
     EXPECT_EQ(true, results.valid);
+}
+
+TEST(CommandLineTest, edge_cases)
+{
+    std::vector<std::string> args = { "-u", "John"};
+
+    Arguments arguments(args);
+    CommandLine command_line;
+
+    auto results = command_line
+        .description("Just an ordinary test.")
+        .parameter("u", "", true)
+        .parameter("x,path,PATH", "", false) // non-mandatory
+        .eval(arguments);
+
+    EXPECT_EQ(0, results.output.size());
+    EXPECT_EQ(true, results.valid);
+    
+    EXPECT_NE("", command_line.getParameter("x"));
 }
