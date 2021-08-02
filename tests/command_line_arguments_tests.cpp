@@ -19,8 +19,8 @@ TEST(CommandLineArgumentsTest, basic_tests)
     commandLine.eval(arguments);
 
     EXPECT_EQ (3, commandLine.count());
-    EXPECT_EQ ("John", commandLine.getParameter("user")); 
-    EXPECT_EQ ("password", commandLine.getParameter("p"));
+    EXPECT_EQ ("John", commandLine.getValue("user")); 
+    EXPECT_EQ ("password", commandLine.getValue("p"));
 
     EXPECT_TRUE (commandLine.isSet("h"));
 }
@@ -38,10 +38,10 @@ TEST(CommandLineArgumentsTest, params_tests)
     commandLine.eval(arguments);
 
     EXPECT_EQ (3, commandLine.count());
-    EXPECT_EQ ("John", commandLine.getParameter("u"));
-    EXPECT_EQ ("password", commandLine.getParameter("p"));
-    EXPECT_EQ ("url", commandLine.getParameter("h"));
-    EXPECT_EQ ("", commandLine.getParameter("unknown"));
+    EXPECT_EQ ("John", commandLine.getValue("u"));
+    EXPECT_EQ ("password", commandLine.getValue("p"));
+    EXPECT_EQ ("url", commandLine.getValue("h"));
+    EXPECT_EQ ("", commandLine.getValue("unknown"));
     EXPECT_EQ (true, commandLine.isSet("u"));
     EXPECT_EQ (false, commandLine.isSet("unknown"));
     EXPECT_EQ (false, commandLine.isSet("John"));
@@ -67,8 +67,8 @@ TEST(CommandLineArgumentsTest, edge_cases)
     commandLine.eval(arguments);
 
     EXPECT_EQ (5, commandLine.count());
-    EXPECT_EQ ("", commandLine.getParameter("u"));
-    EXPECT_EQ ("rval", commandLine.getParameter("lval"));
+    EXPECT_EQ ("", commandLine.getValue("u"));
+    EXPECT_EQ ("rval", commandLine.getValue("lval"));
 
     EXPECT_EQ (false, commandLine.isSet("U"));
 

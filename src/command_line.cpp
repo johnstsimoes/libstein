@@ -183,11 +183,12 @@ int CommandLine::count()
     return unique_values.size();
 }
 
-std::string CommandLine::getParameter(std::string parameter)
+std::string CommandLine::getValue(std::string argument)
 {
     std::string result = "";
 
-    auto command_line_parameters = this->_parameters.find(parameter);
+
+    auto command_line_parameters = this->_parameters.find(argument);
     if (this->_parameters.end() != command_line_parameters)
     {
         result = command_line_parameters->second->_value;

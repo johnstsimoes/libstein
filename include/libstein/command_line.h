@@ -49,7 +49,7 @@ namespace libstein
         CommandLineResults eval(Arguments& arguments);
         int count();
         
-        std::string getParameter(std::string parameter);
+        std::string getValue(std::string argument);
 
         bool isSet(std::string parameter);
         bool hasValue(std::string parameter);

@@ -20,11 +20,11 @@ TEST(CommandLineTest, basic_test_ok)
     EXPECT_EQ(0, results.output.size());
     EXPECT_EQ(true, results.valid);
     
-    EXPECT_EQ("John", command_line.getParameter("u"));
-    EXPECT_EQ("password", command_line.getParameter("p"));
-    EXPECT_NE("", command_line.getParameter("x"));
+    EXPECT_EQ("John", command_line.getValue("u"));
+    EXPECT_EQ("password", command_line.getValue("p"));
+    EXPECT_NE("", command_line.getValue("x"));
 
-    EXPECT_NO_THROW({ command_line.getParameter("unknown"); });
+    EXPECT_NO_THROW({ command_line.getValue("unknown"); });
 }
 
 TEST(CommandLineTest, basic_test_err)
@@ -108,7 +108,7 @@ TEST(CommandLineTest, test_environment_vars)
         .parameter("u,user,PATH", "some description", true)
         .eval(arguments);
 
-    EXPECT_NE("", command_line.getParameter("u"));
+    EXPECT_NE("", command_line.getValue("u"));
 
     EXPECT_EQ(0, results.output.size());
     EXPECT_EQ(true, results.valid);
@@ -153,5 +153,5 @@ TEST(CommandLineTest, edge_cases)
     EXPECT_EQ(0, results.output.size());
     EXPECT_EQ(true, results.valid);
     
-    EXPECT_NE("", command_line.getParameter("x"));
+    EXPECT_NE("", command_line.getValue("x"));
 }
