@@ -10,5 +10,7 @@ namespace libstein
         std::vector<std::string> split(const std::string &string, const char delimiter);
 
         std::string get_environment(std::string environment_variable);
+
+        std::string url_encode(const std::string &value);
     }
 }

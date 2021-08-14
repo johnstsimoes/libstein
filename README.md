@@ -4,7 +4,14 @@
 
 Yet another C++ library for pet projects. Use `#include <libstein.h>`.
 
-## Command line helpers
+## Building and using
+
+Make sure you have the following libraries are installed on your environment.
+
+* Google Test
+* CPR
+
+### Command line helpers
 
 ```
 CommandLine();
@@ -40,7 +47,7 @@ if (results.valid)
 }
 ```
 
-## Date and time helpers
+### Date and time helpers
 
 ```
 const std::tm parse_date(const std::string& date);
@@ -56,20 +63,21 @@ std::tm beginning_next_month(const std::tm& date);
 int compare_months(const std::tm &date1, const std::tm &date2);
 ```
 
-## String Utils
+### String Utils
 
 ```
 std::vector<std::string> split(const std::string &string, const char delimiter);
 std::string get_environment(std::string environment_variable);
+std::string url_encode(const std::string &value);
 ```
 
-# 
+#
 Example CMakeLists.txt:
 
 ```
 include(FetchContent)
 FetchContent_Declare(
-    LibStein 
+    LibStein
     GIT_REPOSITORY "git@github.com:johnstsimoes/libstein.git"
 )
 FetchContent_MakeAvailable(LibStein)

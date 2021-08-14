@@ -29,3 +29,12 @@ TEST(StringUtilsTest, get_environment)
     EXPECT_NE("", get_environment("PATH"));
     EXPECT_EQ("", get_environment("SOMETHING_UNLIKELY_1234234"));
 }
+
+TEST(StringUtilsTest, url_encode)
+{
+    EXPECT_EQ(url_encode(""), "");
+
+    EXPECT_EQ(url_encode("this is a test"), "this%20is%20a%20test");
+    EXPECT_EQ(url_encode("'how'; \"about\" %20 and=equals-sign?param=123"),
+                         "%27how%27%3B%20%22about%22%20%2520%20and%3Dequals-sign%3Fparam%3D123");
+}
