@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <fmt/core.h>
+#include <chrono>
 #include "libstein/cached_rest.h"
 
 TEST(CachedRestTest, basics)
