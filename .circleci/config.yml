@@ -25,7 +25,6 @@ jobs:
       - run:
           name: Execute Tests
           command: |
-            apk --update add redis hiredis-dev
             redis-server --daemonize yes
             cd build/tests
             ./*_tst --gtest_output=xml

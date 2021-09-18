@@ -48,6 +48,22 @@ if (results.valid)
 }
 ```
 
+### Cached REST calls
+
+You can cache simple API GET for one hour calls with CachedRest:
+
+```
+    CachedRest(const std::string &url,
+               const std::string &login = "",
+               const std::string &password = "");
+
+    int status_code();
+    std::string body();
+    bool is_cached();
+```
+
+If a local Redis server is not found it will just retrieve the data normally.
+
 ### Date and time helpers
 
 ```

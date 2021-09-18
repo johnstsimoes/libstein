@@ -9,6 +9,8 @@ extern "C"
 #include <hiredis/hiredis.h>
 }
 
+using namespace libstein;
+
 CachedRest::CachedRest (const std::string &url,
                         const std::string &login,
                         const std::string &password)

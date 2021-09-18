@@ -3,6 +3,8 @@
 #include <chrono>
 #include "libstein/cached_rest.h"
 
+using namespace libstein;
+
 TEST(CachedRestTest, basics)
 {
     // TODO this isn't unit testing, but E2E. Using an external API which can go offline.
