@@ -10,6 +10,7 @@ Make sure you have the following libraries are installed on your environment.
 
 * Google Test
 * CPR
+* Hiredis
 
 ### Command line helpers
 
@@ -69,6 +70,8 @@ int compare_months(const std::tm &date1, const std::tm &date2);
 std::vector<std::string> split(const std::string &string, const char delimiter);
 std::string get_environment(std::string environment_variable);
 std::string url_encode(const std::string &value);
+std::string base64_encode(const std::string &to_encode);
+std::string base64_decode(const std::string &encoded);
 ```
 
 #

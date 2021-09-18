@@ -12,5 +12,8 @@ namespace libstein
         std::string get_environment(std::string environment_variable);
 
         std::string url_encode(const std::string &value);
+
+        std::string base64_encode(const std::string &to_encode);
+        std::string base64_decode(const std::string &encoded);
     }
 }

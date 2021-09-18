@@ -1,5 +1,6 @@
 add_library(LibStein SHARED STATIC
     arguments.cpp
+    cached_rest.cpp
     command_line.cpp
     csv_reader.cpp
     date_utils.cpp
