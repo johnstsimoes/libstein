@@ -1,6 +1,7 @@
 #include <sstream>
 #include <iterator>
 #include <iomanip>
+#include <numeric>
 
 #include "libstein/string_utils.h"
 
@@ -99,6 +100,20 @@ namespace libstein
                 }
             }
             return out;
+        }
+
+        std::string join(const std::vector<std::string> &strings, const std::string &delimiter)
+        {
+            if (strings.size() == 0)
+                return "";
+
+            return std::accumulate(std::next(strings.begin()),
+                                   strings.end(),
+                                   strings[0],
+                                   [&delimiter](std::string a, std::string b)
+                                   {
+                                       return a + delimiter + b;
+                                   });
         }
     }
 }

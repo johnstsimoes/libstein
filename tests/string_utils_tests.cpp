@@ -3,6 +3,20 @@
 
 using namespace libstein::stringutils;
 
+TEST(StringUtilsTest, join)
+{
+    std::vector<std::string> simple {"a", "b", "c"};
+    EXPECT_EQ("a->b->c", join(simple, "->"));
+    EXPECT_EQ("a, b, c", join(simple, ", "));
+    EXPECT_EQ("a,b,c", join(simple, ","));
+
+    // Edge cases
+    std::vector<std::string> single {"a"};
+    std::vector<std::string> empty {};
+    EXPECT_EQ("a", join(single, "->"));
+    EXPECT_EQ("", join(empty, "->"));
+}
+
 TEST(StringUtilsTest, split)
 {
     EXPECT_EQ(6, split("this,is,a,csv,,123", ',').size());

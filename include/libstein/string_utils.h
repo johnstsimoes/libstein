@@ -7,6 +7,7 @@ namespace libstein
 {
     namespace stringutils
     {
+        std::string join(const std::vector<std::string> &strings, const std::string &delimiter);
         std::vector<std::string> split(const std::string &string, const char delimiter);
 
         std::string get_environment(std::string environment_variable);

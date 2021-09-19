@@ -83,8 +83,11 @@ int compare_months(const std::tm &date1, const std::tm &date2);
 ### String Utils
 
 ```
+std::string join(const std::vector<std::string> &strings, const std::string &delimiter);
 std::vector<std::string> split(const std::string &string, const char delimiter);
+
 std::string get_environment(std::string environment_variable);
+
 std::string url_encode(const std::string &value);
 std::string base64_encode(const std::string &to_encode);
 std::string base64_decode(const std::string &encoded);
@@ -101,8 +104,6 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(LibStein)
 include_directories(${LibStein_SOURCE_DIR}/include)
-
-# other directives
 
 # Don't forget to add LibStein to target_link_libraries.
 ```
