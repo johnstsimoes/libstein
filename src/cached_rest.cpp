@@ -20,7 +20,7 @@ CachedRest::CachedRest (const std::string &url,
 
     std::string hash = std::to_string(std::hash<std::string>{}(url));
 
-    bool redis_found = (redis && !redis->err);
+    const bool redis_found = (redis && !redis->err);
     bool data_found = false;
 
     if (redis_found)
@@ -49,7 +49,7 @@ CachedRest::CachedRest (const std::string &url,
         this->body_ = response.text;
         this->is_cached_ = false;
 
-        if (response.status_code == 200)
+        if (redis_found && response.status_code == 200)
         {
             auto encoded = libstein::stringutils::base64_encode(response.text);
             redisReply* reply = (redisReply*)redisCommand(redis, "SET %s %s", hash.c_str(), encoded.c_str());
