@@ -9,7 +9,7 @@ Yet another C++ library for pet projects. Use `#include <libstein.h>`.
 Make sure you have the following libraries are installed on your environment.
 
 * Google Test
-* CPR
+* Libcurl
 * Hiredis
 
 ### Command line helpers

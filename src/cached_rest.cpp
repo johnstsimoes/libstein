@@ -2,6 +2,7 @@
 
 #include <fmt/core.h>
 #include <curl/curl.h>
+#include <mutex>
 
 #include <unordered_map>
 
