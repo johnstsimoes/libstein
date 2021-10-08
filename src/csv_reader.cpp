@@ -4,7 +4,7 @@
 
 using namespace libstein;
 
-enum class CSVState 
+enum class CSVState
 {
     UnquotedField,
     QuotedField,
@@ -19,7 +19,7 @@ CSVReader::~CSVReader()
 {
 }
 
-std::vector<std::string> CSVReader::readCSVRow(const std::string &row) 
+std::vector<std::string> CSVReader::readCSVRow(const std::string &row)
 {
     CSVState state = CSVState::UnquotedField;
     std::vector<std::string> fields {""};

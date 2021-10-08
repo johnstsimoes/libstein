@@ -7,7 +7,7 @@ namespace libstein
     class CachedRest
     {
     private:
-        int status_code_;
+        long status_code_ = 404;
         std::string body_;
         bool is_cached_;
 
@@ -18,7 +18,6 @@ namespace libstein
 
         int status_code();
         std::string body();
-      bool is_cached();
+        bool is_cached();
   };
 }
-

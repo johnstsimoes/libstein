@@ -13,7 +13,7 @@ find_package(GTest CONFIG REQUIRED)
 target_link_libraries(LibStein_tst
                       LibStein
                       hiredis
-                      cpr
+                      curl
                       fmt
                       gtest)
 
