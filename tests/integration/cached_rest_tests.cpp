@@ -7,7 +7,6 @@ using namespace libstein;
 
 TEST(CachedRestTest, basics)
 {
-    // TODO this isn't unit testing, but E2E. Using an external API which can go offline.
     auto now = std::chrono::system_clock::now();
     std::time_t timestamp = std::chrono::system_clock::to_time_t(now);
     auto url = fmt::format("https://networkcalc.com/api/binary/{}?from=10&to=16", timestamp);
