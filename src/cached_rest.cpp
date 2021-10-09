@@ -63,17 +63,16 @@ CachedRest::CachedRest (const std::string &url,
         {
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
             curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
-            // curl_easy_setopt(curl, CURLOPT_USERPWD, "user:pass");
             if (login.size() > 0)
             {
                 curl_easy_setopt(curl, CURLOPT_USERNAME, login.c_str());
                 curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
             }
+            curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
             curl_easy_setopt(curl, CURLOPT_USERAGENT, "jiralab/0.0.1");
             curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 50L);
             curl_easy_setopt(curl, CURLOPT_TCP_KEEPALIVE, 1L);
 
-            std::string response_string;
             std::string header_string;
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, &this->body_);
