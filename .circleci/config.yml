@@ -27,7 +27,7 @@ jobs:
           command: |
             redis-server --daemonize yes
             cd build/tests
-            ./build/tests/unit/libstein_unit --gtest_output=xml
+            ./unit/libstein_unit --gtest_output=xml
       - store_test_results:
           path: build/tests
 workflows:

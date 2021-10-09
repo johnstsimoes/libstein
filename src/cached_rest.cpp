@@ -1,6 +1,5 @@
 #include "libstein.h"
 
-#include <fmt/core.h>
 #include <curl/curl.h>
 #include <mutex>
 
@@ -91,6 +90,7 @@ CachedRest::CachedRest (const std::string &url,
             curl_easy_cleanup(curl);
             curl = nullptr;
         }
+
         if (redis_found && this->status_code_ == 200)
         {
             auto encoded = libstein::stringutils::base64_encode(this->body_);
