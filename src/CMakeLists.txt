@@ -1,4 +1,4 @@
-add_library(LibStein SHARED STATIC
+add_library(libstein SHARED STATIC
     arguments.cpp
     cached_rest.cpp
     command_line.cpp

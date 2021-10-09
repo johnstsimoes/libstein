@@ -5,7 +5,7 @@ IF( NOT CMAKE_BUILD_TYPE )
    SET( CMAKE_BUILD_TYPE Release ... FORCE )
 ENDIF()
 
-project(LibStein
+project(libstein
         VERSION 1.0.0
         DESCRIPTION "John Simoes' C/C++ library for general projects.")
 

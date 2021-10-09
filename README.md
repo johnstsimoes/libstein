@@ -99,11 +99,11 @@ Example CMakeLists.txt:
 ```
 include(FetchContent)
 FetchContent_Declare(
-    LibStein
+    libstein
     GIT_REPOSITORY "git@github.com:johnstsimoes/libstein.git"
 )
-FetchContent_MakeAvailable(LibStein)
-include_directories(${LibStein_SOURCE_DIR}/include)
+FetchContent_MakeAvailable(libstein)
+include_directories(${libstein_SOURCE_DIR}/include)
 
-# Don't forget to add LibStein to target_link_libraries.
+# Don't forget to add libstein to target_link_libraries.
 ```
