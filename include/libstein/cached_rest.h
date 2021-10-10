@@ -8,10 +8,15 @@ namespace libstein
     {
     private:
         long status_code_ = 404;
-        std::string body_;
-        bool is_cached_;
+        std::string body_ = "";
+        bool is_cached_ = false;
 
     public:
+
+        static bool is_redis_enabled;
+        static std::string is_redis_address;
+        static long is_delay_milisseconds;
+
         CachedRest(const std::string &url,
                    const std::string &login = "",
                    const std::string &password = "");
