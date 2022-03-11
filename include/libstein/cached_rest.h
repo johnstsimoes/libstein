@@ -16,6 +16,7 @@ namespace libstein
         static bool is_redis_enabled;
         static std::string is_redis_address;
         static long is_delay_milisseconds;
+        static long redis_expiration_seconds;
 
         CachedRest(const std::string &url,
                    const std::string &login = "",

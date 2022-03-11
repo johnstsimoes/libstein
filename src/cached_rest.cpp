@@ -1,7 +1,6 @@
 #include "libstein.h"
 
 #include <curl/curl.h>
-#include <fmt/format.h>
 #include <thread>
 #include <chrono>
 #include <mutex>
@@ -20,6 +19,7 @@ using namespace libstein;
 bool CachedRest::is_redis_enabled = false;
 std::string CachedRest::is_redis_address = "127.0.0.1";
 long CachedRest::is_delay_milisseconds = 0;
+long CachedRest::redis_expiration_seconds = 24 * 60 * 60;
 
 static size_t writeFunction(void *ptr, size_t size, size_t block_size, std::string* data)
 {
@@ -125,7 +125,7 @@ CachedRest::CachedRest (const std::string &url,
             freeReplyObject(set_reply);
 
             // Set expiration for 4 hours.
-            redisReply* expire_reply = (redisReply*)redisCommand(redis, "EXPIRE %s 14400", url_hash.c_str());
+            redisReply* expire_reply = (redisReply*)redisCommand(redis, "EXPIRE %s %d", url_hash.c_str(), CachedRest::redis_expiration_seconds);
             freeReplyObject(expire_reply);
         }
     }
