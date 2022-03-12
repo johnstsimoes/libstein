@@ -1,5 +1,6 @@
 #include <iostream>
 #include <libstein.h>
+#include <chrono>
 
 int main(int argc, char** argv)
 {

@@ -34,5 +34,4 @@ install(DIRECTORY "${PROJECT_SOURCE_DIR}/include/libstein"
 )
 
 enable_testing()
-include_directories(src)
 add_subdirectory(tests)
